@@ -7,53 +7,60 @@ let operations = [{
   description : `mois de septembre`,
   money : 1200,
   percentage : 100,
-  operation : `credit`,
+  type : `credit`,
 },
 {
   title : 'Loyer',
   description : `mois d'aoüt`,
   money : 450,
   percentage : 37.5,
-  operation : `debit`,
+  type : `debit`,
 },
 {
   title : 'Vente Boncoin',
   description : `jeu PS5`,
   money : 25,
   percentage : 3.33,
-  operation : `credit`,
+  type : `credit`,
 }];
   console.log(operations);
-if(operations[0].operation == 'credit'){
-  img == 'sac-dargent.png';
-};
-if(operations[0].operation == 'debit'){
-  img == 'depenses.png';
-}
   
-const template = `<div class="operation `+ operations[0].operation +`">
+  function newOperation(){
+    operations.forEach((operation) => {
+    if(operation.type == 'credit'){
+      img = 'sac-dargent.png';
+    };
+    if(operation.type == 'debit'){
+      img = 'depenses.png';
+    }
+  const template = `<div class="operation ${operation.type}">
 <div class="grid-x grid-padding-x align-middle">
   <div class="cell shrink">
     <div class="picto">
-      <img src="./assets/images/`+ img +`" alt="`+ operations[0].operation +`" />
+      <img src="./assets/images/${img}" alt="${operation.type}" />
     </div>
   </div>
   <div class="cell auto">
     <div>
-      <h2>`+ operations[0].title +`</h2>
-      <small>`+ operations[0].description +`</small>
+      <h2>${operation.title}</h2>
+      <small>${operation.description}</small>
     </div>
   </div>
   <div class="cell small-3 text-right">
     <div>
-      <p class="count">`+ operations[0].money +`€</p>
-      <small>`+ operations[0].percentage +`%</small>
+      <p class="count">${operation.money} €</p>
+      <small>${operation.percentage} %</small>
     </div>
   </div>
 </div>
 </div>`;
 
- 
+document.querySelector('main .grid-container').innerHTML += template;
+});}
+
+newOperation();
+
+
 const btnSubmit = document.querySelector('.btSubmit');
 const donneesInput = document.querySelectorAll('#operationForm input');
 const donnees = document.querySelectorAll('#operationForm select');
@@ -65,8 +72,7 @@ const navHeader = document.querySelectorAll('.navHeader a');
 
 document.getElementById('solde').innerHTML = solde +' €';
 console.log(operations[0].operation);
-document.getElementById('ajouterOperation').innerHTML= template;
-console.log(template);
+
 
 operations.forEach((a,b) => {
 });
