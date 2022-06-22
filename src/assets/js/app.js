@@ -1,6 +1,13 @@
 let count =0;
 let solde =2650;
 let img = `sac-dargent.png`;
+let filter=[];
+
+const btSubmit = document.querySelector('#btSubmit');
+const donneesInput = document.querySelectorAll('#operationForm input');
+const donnees = document.querySelectorAll('#operationForm select');
+const submit = document.querySelector('#operationForm');
+const navHeader = document.querySelectorAll('.navHeader a');
 
 let operations = [{
   title : `Salaire`,
@@ -22,11 +29,27 @@ let operations = [{
   money : 25,
   percentage : 3.33,
   type : `credit`,
+},
+{
+  title : 'Restaurant',
+  description : `mc do`,
+  money : 15,
+  percentage : 1.9,
+  type : `debit`,
+},
+{
+  title : 'Réalisation de site web',
+  description : `ma mairie`,
+  money : 1800,
+  percentage : 236.84,
+  type : `credit`,
 }];
-  console.log(operations);
-  
+
+  // Function affichage des données ----------------------------------------
+
   function newOperation(){
-    operations.forEach((operation) => {
+    document.querySelector('main .grid-container').innerHTML ='';
+    filter.forEach((operation) => {
     if(operation.type == 'credit'){
       img = 'sac-dargent.png';
     };
@@ -54,87 +77,70 @@ let operations = [{
   </div>
 </div>
 </div>`;
-
 document.querySelector('main .grid-container').innerHTML += template;
 });}
 
+// Page de depart -----------------------------------------------------
+
+filter = operations;
 newOperation();
 
 
-const btnSubmit = document.querySelector('.btSubmit');
-const donneesInput = document.querySelectorAll('#operationForm input');
-const donnees = document.querySelectorAll('#operationForm select');
-const ajouterOperation = document.getElementById('ajouterOperation');
-const submit = document.querySelector('#operationForm');
-const debit = document.querySelectorAll('.debit');
-const credit = document.querySelectorAll('.credit');
-const navHeader = document.querySelectorAll('.navHeader a');
 
 document.getElementById('solde').innerHTML = solde +' €';
-console.log(operations[0].operation);
 
 
-operations.forEach((a,b) => {
-});
 
-// Affichage de toutes les operations
+// Affichage de toutes les operations quand clic nav tout
 
 navHeader[0].addEventListener('click',function(){
   navHeader[0].classList.add('active');
   navHeader[1].classList.remove('active');
   navHeader[2].classList.remove('active');
-
-  debit.forEach(function(debit){
-    debit.style.display = 'block';
-  });
-
-  credit.forEach(function(credit){
-    credit.style.display = 'block';
-  });
+  filter = operations;
+  newOperation();
 });
 
-// Affichage de tout les credit
+// Affichage de tout les credit quand clic nav credit
 
 navHeader[1].addEventListener('click',function(){
   navHeader[1].classList.add('active');
   navHeader[0].classList.remove('active');
   navHeader[2].classList.remove('active');
-
-  credit.forEach(function(credit){
-    credit.style.display = 'block';
-  });
-
-  debit.forEach(function(debit){
-    debit.style.display = 'none';
-  });
+  
+  filter = operations.filter(operation => operation.type ==='credit');
+  newOperation();
 });
 
-// Affichage de tout les debit
+// Affichage de tout les debit quand clic nav debit
 
 navHeader[2].addEventListener('click',function(){
   navHeader[2].classList.add('active');
   navHeader[0].classList.remove('active');
   navHeader[1].classList.remove('active');
 
-  credit.forEach(function(credit){
-    credit.style.display = 'none';
-  });
-
-  debit.forEach(function(debit){
-    debit.style.display = 'block';
-  });
+  filter = operations.filter(operation => operation.type ==='debit');
+  newOperation();
 });
 
 //Ajouter une opperation
-submit.addEventListener('click',function(){
-  ajoutOpperation.innerHTML = donneesInput[0].value + donneesInput[1].value + donneesInput[2].value;
-  console.log(donneesInput[0].value);
-  console.log(donneesInput[1].value);
-  console.log(donneesInput[2].value);
-  console.log(donnees[0].value);
+
+// submit.addEventListener('click',function(){
+//   filter = [{
+//     title : donneesInput[0].value, 
+//     description : donneesInput[1].value,
+//     money : donneesInput[2].value,
+//     type : donnees[0].value
+//   }];
+//   operations.push(filter);
+//   console.log(donneesInput[0].value);
+//   console.log(donneesInput[1].value);
+//   console.log(donneesInput[2].value);
+//   console.log(donnees[0].value);
+//   console.log(operations);
         //  submit.submit();
         //  submit.reset();
-});
+// });
 
 // btnSubmit.addEventListener('click', function(){
 //   submit.submit();
@@ -142,8 +148,19 @@ submit.addEventListener('click',function(){
 
 function submitBeatport()
 {
-          submit.submit();
-          submit.reset();
+  filter = [{
+    title : donneesInput[0].value, 
+    description : donneesInput[1].value,
+    money : donneesInput[2].value,
+    type : donnees[0].value
+  }];
+  operations.push(filter);
+  console.log(donneesInput[0].value);
+  console.log(donneesInput[1].value);
+  console.log(donneesInput[2].value);
+  console.log(donnees[0].value);
+  console.log(operations);
+  submit.reset();
 }
 
 
