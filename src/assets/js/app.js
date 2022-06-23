@@ -2,6 +2,7 @@ let count =0;
 let solde =2650;
 let img = `sac-dargent.png`;
 let filter=[];
+let operationTemporaire=[];
 
 const btSubmit = document.querySelector('#btSubmit');
 const donneesInput = document.querySelectorAll('#operationForm input');
@@ -125,41 +126,15 @@ navHeader[2].addEventListener('click',function(){
 
 //Ajouter une opperation
 
-// submit.addEventListener('click',function(){
-//   filter = [{
-//     title : donneesInput[0].value, 
-//     description : donneesInput[1].value,
-//     money : donneesInput[2].value,
-//     type : donnees[0].value
-//   }];
-//   operations.push(filter);
-//   console.log(donneesInput[0].value);
-//   console.log(donneesInput[1].value);
-//   console.log(donneesInput[2].value);
-//   console.log(donnees[0].value);
-//   console.log(operations);
-        //  submit.submit();
-        //  submit.reset();
-// });
-
-// btnSubmit.addEventListener('click', function(){
-//   submit.submit();
-// });
-
 function submitBeatport()
 {
-  filter = [{
+  operationTemporaire = [{
     title : donneesInput[0].value, 
     description : donneesInput[1].value,
     money : donneesInput[2].value,
     type : donnees[0].value
   }];
-  operations.push(filter);
-  console.log(donneesInput[0].value);
-  console.log(donneesInput[1].value);
-  console.log(donneesInput[2].value);
-  console.log(donnees[0].value);
-  console.log(operations);
+  operations.push(operationTemporaire[0]);
   submit.reset();
 }
 
