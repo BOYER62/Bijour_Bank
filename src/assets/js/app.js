@@ -87,42 +87,53 @@ filter = operations;
 newOperation();
 
 
-
 document.getElementById('solde').innerHTML = solde +' €';
 
 
 
 // Affichage de toutes les operations quand clic nav tout
 
-navHeader[0].addEventListener('click',function(){
+function tout(){
   navHeader[0].classList.add('active');
   navHeader[1].classList.remove('active');
   navHeader[2].classList.remove('active');
   filter = operations;
   newOperation();
-});
+};
 
 // Affichage de tout les credit quand clic nav credit
 
-navHeader[1].addEventListener('click',function(){
+  function credit(){
   navHeader[1].classList.add('active');
   navHeader[0].classList.remove('active');
   navHeader[2].classList.remove('active');
   
   filter = operations.filter(operation => operation.type ==='credit');
   newOperation();
-});
+};
+
+
 
 // Affichage de tout les debit quand clic nav debit
 
-navHeader[2].addEventListener('click',function(){
+function debit(){
   navHeader[2].classList.add('active');
   navHeader[0].classList.remove('active');
   navHeader[1].classList.remove('active');
-
+  
   filter = operations.filter(operation => operation.type ==='debit');
   newOperation();
-});
+};
+
+// test du graph si affiche ------------------
+
+function testChart(){
+if(typeof chart == 'undefined'){
+  refrechGraph();
+}else{
+  chart.destroy();
+  refrechGraph();
+}};
 
 //Ajouter une opperation
 
