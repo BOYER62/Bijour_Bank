@@ -26,7 +26,6 @@ function refrechGraph(){
   const DATA_COUNT = datapoints.length + 2;
 for (let i = 0; i < DATA_COUNT; ++i) {
   labels.push(i.toString());
-  console.log(labels);
 }
 const data = {
   labels: labels,

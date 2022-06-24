@@ -1,10 +1,11 @@
 let count =0;
-let solde =2650;
+let solde =0;
 let img = `sac-dargent.png`;
 let filter=[];
 let operationTemporaire=[];
+let ajoutOperation='';
 
-const btSubmit = document.querySelector('#btSubmit');
+const btSubmit = document.getElementById('btSubmit');
 const donneesInput = document.querySelectorAll('#operationForm input');
 const donnees = document.querySelectorAll('#operationForm select');
 const submit = document.querySelector('#operationForm');
@@ -46,7 +47,7 @@ let operations = [{
   type : `credit`,
 }];
 
-  // Function affichage des données ----------------------------------------
+// Function affichage des données ----------------------------------------
 
   function newOperation(){
     document.querySelector('main .grid-container').innerHTML ='';
@@ -57,38 +58,50 @@ let operations = [{
     if(operation.type == 'debit'){
       img = 'depenses.png';
     }
-  const template = `<div class="operation ${operation.type}">
-<div class="grid-x grid-padding-x align-middle">
+    const template = `<div class="operation ${operation.type}">
+    <div class="grid-x grid-padding-x align-middle">
   <div class="cell shrink">
-    <div class="picto">
-      <img src="./assets/images/${img}" alt="${operation.type}" />
+  <div class="picto">
+  <img src="./assets/images/${img}" alt="${operation.type}" />
     </div>
   </div>
   <div class="cell auto">
-    <div>
-      <h2>${operation.title}</h2>
-      <small>${operation.description}</small>
-    </div>
+  <div>
+  <h2>${operation.title}</h2>
+  <small>${operation.description}</small>
+  </div>
   </div>
   <div class="cell small-3 text-right">
-    <div>
-      <p class="count">${operation.money} €</p>
-      <small>${operation.percentage} %</small>
-    </div>
+  <div>
+  <p class="count">${operation.money} €</p>
+  <small>${operation.percentage} %</small>
   </div>
-</div>
-</div>`;
-document.querySelector('main .grid-container').innerHTML += template;
-});}
+  </div>
+  </div>
+  </div>`;
+  document.querySelector('main .grid-container').innerHTML += template;
+});
+reste();
+}
 
 // Page de depart -----------------------------------------------------
 
 filter = operations;
 newOperation();
 
-
-document.getElementById('solde').innerHTML = solde +' €';
-
+function reste(){
+  solde = 0;
+  operations.forEach((calcul) => {
+    if(calcul.type == 'credit'){
+      solde = parseFloat(solde) + parseFloat(calcul.money);
+    };
+    if(calcul.type == 'debit'){
+      solde = solde - calcul.money;
+    };
+    console.log(solde);
+  });
+  document.getElementById('solde').innerHTML = solde +' €';
+};
 
 
 // Affichage de toutes les operations quand clic nav tout
@@ -139,16 +152,31 @@ if(typeof chart == 'undefined'){
 
 function submitBeatport()
 {
-  operationTemporaire = [{
+    return{
     title : donneesInput[0].value, 
     description : donneesInput[1].value,
     money : donneesInput[2].value,
+    percentage : ((donneesInput[2].value / solde)*100).toFixed(2),
     type : donnees[0].value
-  }];
-  operations.push(operationTemporaire[0]);
-  submit.reset();
+};
 }
+btSubmit.addEventListener('click', (event) => {
+  event.preventDefault();
+ajoutOperation = submitBeatport();
+console.log(ajoutOperation);
+operations.push(ajoutOperation);
+console.log(operations);
+newOperation();
+testChart();
+const modal = document.querySelector('.reveal-overlay');
+modal.style.display = "none";
+const html = document.querySelector('html');
+html.classList.remove("zf-has-scroll", "is-reveal-open");
+html.removeAttribute('style');
+submit.reset();
+});
 
+// calcul des operations --------------------
 
 console.log("Bijour Bank !");
 /**
