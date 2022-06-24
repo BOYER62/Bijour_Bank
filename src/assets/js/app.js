@@ -5,6 +5,7 @@ let filter=[];
 let operationTemporaire=[];
 let ajoutOperation='';
 
+const html = document.querySelector('html');
 const btSubmit = document.getElementById('btSubmit');
 const donneesInput = document.querySelectorAll('#operationForm input');
 const donnees = document.querySelectorAll('#operationForm select');
@@ -49,9 +50,9 @@ let operations = [{
 
 // Function affichage des données ----------------------------------------
 
-  function newOperation(){
-    document.querySelector('main .grid-container').innerHTML ='';
-    filter.forEach((operation) => {
+function newOperation(){
+  document.querySelector('main .grid-container').innerHTML ='';
+  filter.forEach((operation) => {
     if(operation.type == 'credit'){
       img = 'sac-dargent.png';
     };
@@ -60,34 +61,36 @@ let operations = [{
     }
     const template = `<div class="operation ${operation.type}">
     <div class="grid-x grid-padding-x align-middle">
-  <div class="cell shrink">
-  <div class="picto">
-  <img src="./assets/images/${img}" alt="${operation.type}" />
+    <div class="cell shrink">
+    <div class="picto">
+    <img src="./assets/images/${img}" alt="${operation.type}" />
     </div>
-  </div>
-  <div class="cell auto">
-  <div>
-  <h2>${operation.title}</h2>
-  <small>${operation.description}</small>
-  </div>
-  </div>
-  <div class="cell small-3 text-right">
-  <div>
-  <p class="count">${operation.money} €</p>
-  <small>${operation.percentage} %</small>
-  </div>
-  </div>
-  </div>
-  </div>`;
-  document.querySelector('main .grid-container').innerHTML += template;
-});
-reste();
+    </div>
+    <div class="cell auto">
+    <div>
+    <h2>${operation.title}</h2>
+    <small>${operation.description}</small>
+    </div>
+    </div>
+    <div class="cell small-3 text-right">
+    <div>
+    <p class="count">${operation.money} €</p>
+    <small>${operation.percentage} %</small>
+    </div>
+    </div>
+    </div>
+    </div>`;
+    document.querySelector('main .grid-container').innerHTML += template;
+  });
+  reste();
 }
 
 // Page de depart -----------------------------------------------------
 
 filter = operations;
 newOperation();
+
+// calcul du solde --------------------
 
 function reste(){
   solde = 0;
@@ -116,7 +119,7 @@ function tout(){
 
 // Affichage de tout les credit quand clic nav credit
 
-  function credit(){
+function credit(){
   navHeader[1].classList.add('active');
   navHeader[0].classList.remove('active');
   navHeader[2].classList.remove('active');
@@ -138,10 +141,10 @@ function debit(){
   newOperation();
 };
 
-// test du graph si affiche ------------------
+// test du graph si affichage ------------------
 
 function testChart(){
-if(typeof chart == 'undefined'){
+  if(typeof chart == 'undefined'){
   refrechGraph();
 }else{
   chart.destroy();
@@ -152,31 +155,30 @@ if(typeof chart == 'undefined'){
 
 function submitBeatport()
 {
-    return{
+  return{
     title : donneesInput[0].value, 
     description : donneesInput[1].value,
     money : donneesInput[2].value,
     percentage : ((donneesInput[2].value / solde)*100).toFixed(2),
     type : donnees[0].value
-};
+  };
 }
+
+// enregistrement des donnees et fermeture du formulaire
+
 btSubmit.addEventListener('click', (event) => {
   event.preventDefault();
 ajoutOperation = submitBeatport();
-console.log(ajoutOperation);
 operations.push(ajoutOperation);
-console.log(operations);
 newOperation();
 testChart();
 const modal = document.querySelector('.reveal-overlay');
 modal.style.display = "none";
-const html = document.querySelector('html');
 html.classList.remove("zf-has-scroll", "is-reveal-open");
 html.removeAttribute('style');
 submit.reset();
 });
 
-// calcul des operations --------------------
 
 console.log("Bijour Bank !");
 /**
